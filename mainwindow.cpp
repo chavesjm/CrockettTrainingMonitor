@@ -3,7 +3,7 @@
 
 #include <QTimer>
 
-#define SERIAL_PORT "/dev/ttyUSB0"
+#define SERIAL_PORT "/dev/rfcomm0"
 #define PORT_VELOCIDAD QSerialPort::Baud38400
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -118,7 +118,7 @@ void MainWindow::handleReadyRead()
         values = values.remove("\r");
         values = values.remove("\n");
 
-        QStringList value = values.split("\t");
+        QStringList value = values.split(",");
 
         if(value.size() == 12)
         {
@@ -134,6 +134,8 @@ void MainWindow::handleReadyRead()
             *m_standarOutput << value.at(9) << endl;
             *m_standarOutput << value.at(10) << endl;
             *m_standarOutput << value.at(11) << endl;
+
+
 
             frequency = value.at(0).toDouble();
             beta = value.at(1).toDouble();
@@ -154,7 +156,7 @@ void MainWindow::handleReadyRead()
 
             m_readData.clear();
 
-            Object_GL->setAngles(yaw,roll,pitch);
+            Object_GL->setAngles(-pitch,-roll,yaw);
 
             m_dataWidget->setAngles(yaw,pitch,roll);
             m_dataWidget->setInitialAngles(yaw_initial,pitch_initial, roll_initial);
