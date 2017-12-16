@@ -43,7 +43,7 @@ void DataConnector::handleReadyRead()
     {
         QByteArray byteArray = m_serialPort.readAll();
 
-        qDebug() << byteArray;
+        //qDebug() << byteArray;
 
         emit dataReaded(byteArray);
     }

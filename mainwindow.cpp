@@ -6,7 +6,7 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "/dev/ttyUSB0"
+#define SERIAL_PORT "/dev/rfcomm0"
 #define PORT_VELOCIDAD QSerialPort::Baud38400
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -22,24 +22,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_yawTurn = 0;
     m_range = 0;
 
-    // Set the window size
-    this->resize(800,600);
-    this->setWindowTitle("Object viewer");
-
-    // Create a layout in the main window
-    centralWidget = new QWidget(this);
-    gridLayoutWidget = new QWidget(centralWidget);
-    gridLayoutWidget->setGeometry(QRect(0, 0, this->width(), this->height()));
-    gridLayout = new QGridLayout(gridLayoutWidget);
+    this->setWindowTitle("Crockett Training");
 
     // Create the openGL display for the map
     Object_GL = new ObjectOpenGL(ui->OpenGLFrame);
     Object_GL->setObjectName(QString::fromUtf8("ObjectOpenGL"));
-    Object_GL->setGeometry(QRect(0, 0, this->width(), this->height()));
-
-    // Insert the Open Gl display into the layout
-    //gridLayout->addWidget(Object_GL, 0, 0, 1, 1);
-    //setCentralWidget(centralWidget);
+    int width = this->width() - (ui->DataFrame->width()+ui->StatusGraph->width());
+    Object_GL->setGeometry(QRect(0, 0, width, height()));
 
     // Create the menubar
     QMenu *FileMenu = menuBar()->addMenu("&File");
@@ -68,9 +57,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_dataWidget.reset(new DataWidget());
     connect(m_dataWidget.data(),SIGNAL(betaValueChanged(int)),this,SLOT(betaValueChanged(int)));
     ui->DataFrame->setLayout(m_dataWidget->layout());
-    //connect(&m_timer, &QTimer::timeout, this, &MainWindow::handleTimeout);
-
-    m_timer.start(5000);
 
     openConnection();
 

@@ -168,7 +168,7 @@ void ObjectOpenGL::Draw_Box()
     glRotated(-angle_x, 1.0, 0.0, 0.0);
 
     glPushMatrix();
-    glScalef(4.,4.,4.);
+    glScalef(3.,3.,3.);
     Draw_Frame();
     glPopMatrix();
 

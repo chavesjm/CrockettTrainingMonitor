@@ -7,7 +7,7 @@ DataWidget::DataWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(betaChanged()));
+    connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(betaChanged(int)));
 }
 
 DataWidget::~DataWidget()
