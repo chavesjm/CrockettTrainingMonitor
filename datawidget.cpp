@@ -6,6 +6,8 @@ DataWidget::DataWidget(QWidget *parent) :
     ui(new Ui::DataWidget)
 {
     ui->setupUi(this);
+
+    connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(betaChanged()));
 }
 
 DataWidget::~DataWidget()
@@ -13,51 +15,51 @@ DataWidget::~DataWidget()
     delete ui;
 }
 
-void DataWidget::setAngles(double theta, double psi, double phi)
+void DataWidget::setAngles(double yaw, double pitch, double roll)
 {
-    m_theta = theta;
-    m_psi = psi;
-    m_phi = phi;
+    m_yaw = yaw;
+    m_pitch = pitch;
+    m_roll = roll;
 
-    QString thetaString = QString::number((int)m_theta);
-    QString psiString = QString::number((int)m_psi);
-    QString phiString = QString::number((int)m_phi);
+    QString yawString = QString::number((int)m_yaw);
+    QString pitchString = QString::number((int)m_pitch);
+    QString rollString = QString::number((int)m_roll);
 
-    ui->LCD_Theta->display(thetaString);
-    ui->LCD_Psi->display(psiString);
-    ui->LCD_Phi->display(phiString);
+    ui->LCD_Yaw->display(yawString);
+    ui->LCD_Pitch->display(pitchString);
+    ui->LCD_Roll->display(rollString);
 
 }
 
-void DataWidget::setInitialAngles(double theta, double psi, double phi)
+void DataWidget::setInitialAngles(double yaw, double pitch, double roll)
 {
-    m_theta_initial = theta;
-    m_psi_initial = psi;
-    m_phi_initial = phi;
+    m_yaw_initial = yaw;
+    m_pitch_initial = pitch;
+    m_roll_initial = roll;
 
-    QString thetaString = QString::number((int)m_theta_initial);
-    QString psiString = QString::number((int)m_psi_initial);
-    QString phiString = QString::number((int)m_phi_initial);
+    QString yawString = QString::number((int)m_yaw_initial);
+    QString pitchString = QString::number((int)m_pitch_initial);
+    QString rollString = QString::number((int)m_roll_initial);
 
-    ui->LCD_Theta_Initial->display(thetaString);
-    ui->LCD_Psi_Initial->display(psiString);
-    ui->LCD_Phi_Initial->display(phiString);
+    ui->LCD_Yaw_Initial->display(yawString);
+    ui->LCD_Pitch_Initial->display(pitchString);
+    ui->LCD_Roll_Initial->display(rollString);
 
 }
 
-void DataWidget::setTurnAngles(double theta, double psi, double phi)
+void DataWidget::setTurnAngles(double yaw, double pitch, double roll)
 {
-    m_theta_turn = theta;
-    m_psi_turn = psi;
-    m_phi_turn = phi;
+    m_yaw_turn = yaw;
+    m_pitch_turn = pitch;
+    m_roll_turn = roll;
 
-    QString thetaString = QString::number(m_theta_turn);
-    QString psiString = QString::number(m_psi_turn);
-    QString phiString = QString::number(m_phi_turn);
+    QString yawString = QString::number(m_yaw_turn);
+    QString pitchString = QString::number(m_pitch_turn);
+    QString rollString = QString::number(m_roll_turn);
 
-    ui->LCD_Theta_Turn->display(thetaString);
-    ui->LCD_Psi_Turn->display(psiString);
-    ui->LCD_Phi_Turn->display(phiString);
+    ui->LCD_Yaw_Turn->display(yawString);
+    ui->LCD_Pitch_Turn->display(pitchString);
+    ui->LCD_Roll_Turn->display(rollString);
 
 }
 
@@ -80,7 +82,16 @@ void DataWidget::setFrequency(double frequency)
     ui->LCD_Frequency->display(frequencyString);
 }
 
-void DataWidget::on_DI_Beta_valueChanged(int value)
+void DataWidget::setRange(double range)
+{
+    m_range = range;
+
+    QString rangeString = QString::number(m_range);
+
+    ui->LCD_Range->display(rangeString);
+}
+
+void DataWidget::betaChanged(int value)
 {
     emit betaValueChanged(value);
 }

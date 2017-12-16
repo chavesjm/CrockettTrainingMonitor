@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport opengl
+QT       += core gui serialport opengl printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,11 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
         objectgl.cpp \
-    datawidget.cpp
+    datawidget.cpp \
+    dataconnector.cpp \
+    qcustomplot/qcustomplot.cpp
+
 
 HEADERS  += mainwindow.h \
             objectgl.h \
-    datawidget.h
+    datawidget.h \
+    dataconnector.h \
+    qcustomplot/qcustomplot.h
 
 FORMS    += mainwindow.ui \
     datawidget.ui

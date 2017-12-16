@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>259</height>
+    <width>344</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,12 +23,12 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Theta</string>
+            <string>Yaw</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Theta">
+          <widget class="QLCDNumber" name="LCD_Yaw">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -44,12 +44,12 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Psi</string>
+            <string>Pitch</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Psi">
+          <widget class="QLCDNumber" name="LCD_Pitch">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -65,12 +65,12 @@
          <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Phi</string>
+            <string>Roll</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Phi">
+          <widget class="QLCDNumber" name="LCD_Roll">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -90,12 +90,12 @@
          <item>
           <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>Theta Initial</string>
+            <string>Yaw Initial</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Theta_Initial">
+          <widget class="QLCDNumber" name="LCD_Yaw_Initial">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -111,12 +111,12 @@
          <item>
           <widget class="QLabel" name="label_7">
            <property name="text">
-            <string>Psi Initial</string>
+            <string>Pitch Initial</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Psi_Initial">
+          <widget class="QLCDNumber" name="LCD_Pitch_Initial">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -132,12 +132,12 @@
          <item>
           <widget class="QLabel" name="label_8">
            <property name="text">
-            <string>Phi Initial</string>
+            <string>Roll Initial</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Phi_Initial">
+          <widget class="QLCDNumber" name="LCD_Roll_Initial">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -157,12 +157,12 @@
          <item>
           <widget class="QLabel" name="label_9">
            <property name="text">
-            <string>Theta Turn</string>
+            <string>Yaw Turn</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Theta_Turn">
+          <widget class="QLCDNumber" name="LCD_Yaw_Turn">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -178,12 +178,12 @@
          <item>
           <widget class="QLabel" name="label_10">
            <property name="text">
-            <string>Psi Turn</string>
+            <string>Pitch Turn</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Psi_Turn">
+          <widget class="QLCDNumber" name="LCD_Pitch_Turn">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -199,12 +199,12 @@
          <item>
           <widget class="QLabel" name="label_11">
            <property name="text">
-            <string>Phi Turn</string>
+            <string>Roll Turn</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="LCD_Phi_Turn">
+          <widget class="QLCDNumber" name="LCD_Roll_Turn">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -219,56 +219,90 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="1">
-    <layout class="QVBoxLayout" name="verticalLayout_7">
+   <item row="1" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout_16">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Beta</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Beta</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="LCD_Beta">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>50</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QDial" name="DI_Beta">
-         <property name="maximum">
-          <number>1023</number>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Frequency</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="LCD_Frequency">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>50</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QLCDNumber" name="LCD_Beta">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>50</height>
-          </size>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Range</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLCDNumber" name="LCD_Range">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>50</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Frequency</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLCDNumber" name="LCD_Frequency">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>50</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QSlider" name="horizontalSlider">
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>99</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

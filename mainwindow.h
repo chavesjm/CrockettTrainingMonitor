@@ -9,6 +9,10 @@
 #include <objectgl.h>
 #include <datawidget.h>
 
+#include <dataconnector.h>
+
+#include <qcustomplot/qcustomplot.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -23,16 +27,23 @@ public:
 
 private slots:
     void onTimer_UpdateDisplay();
-    void handleReadyRead();
-    void handleError(QSerialPort::SerialPortError error);
+    void dataReceived(QByteArray data);
     void betaValueChanged(int value);
 
 private:
+    void openConnection();
+    void closeConnection();
+    void initGraph();
+
     Ui::MainWindow *ui;
-    QSerialPort m_serialPort;
-    QByteArray m_readData;
-    QTextStream *m_standarOutput;
+
     QTimer  m_timer, m_timerRead;
+
+    float m_yaw, m_pitch, m_roll;
+    float m_yawTurn;
+    float m_range;
+
+    QCPCurve *m_newCurve;
 
     // Layout of the window
     QGridLayout             *gridLayout;
@@ -46,6 +57,8 @@ private:
 
     //DataWidget
     QScopedPointer<DataWidget> m_dataWidget;
+
+    QScopedPointer<DataConnector> m_dataConnector;
 };
 
 #endif // MAINWINDOW_H
