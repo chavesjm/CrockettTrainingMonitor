@@ -63,6 +63,22 @@ void DataWidget::setTurnAngles(double yaw, double pitch, double roll)
 
 }
 
+void DataWidget::setSpeedAngles(double yawSpeed, double pitchSpeed, double rollSpeed)
+{
+    m_yaw_speed = yawSpeed;
+    m_pitch_speed = pitchSpeed;
+    m_roll_speed = rollSpeed;
+
+    QString yawSpeedString = QString::number(m_yaw_speed,'f',7);
+    QString pitchSpeedString = QString::number(m_pitch_speed,'f',7);
+    QString rollSpeedString = QString::number(m_roll_speed,'f',7);
+
+    ui->LCD_Yaw_Speed->display(yawSpeedString);
+    ui->LCD_Pitch_Speed->display(pitchSpeedString);
+    ui->LCD_Roll_Speed->display(rollSpeedString);
+
+}
+
 void DataWidget::setBeta(double beta)
 {
     m_beta = beta;

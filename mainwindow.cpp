@@ -6,7 +6,7 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "/dev/rfcomm0"
+#define SERIAL_PORT "/dev/ttyUSB0"
 #define PORT_VELOCIDAD QSerialPort::Baud38400
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -123,6 +123,7 @@ void MainWindow::dataReceived(QByteArray data)
     double yaw=0.0,pitch=0.0,roll=0.0;
     double yaw_initial=0.0,pitch_initial=0.0,roll_initial=0.0;
     double yaw_turn=0.0,pitch_turn=0.0,roll_turn=0.0;
+    double yaw_speed=0.0, pitch_speed=0.0, roll_speed=0.0;
     double beta=0.0,frequency=0.0;
     double range = 0;
 
@@ -133,7 +134,7 @@ void MainWindow::dataReceived(QByteArray data)
 
     QStringList value = values.split(",");
 
-    if(value.size() == 12)
+    if(value.size() == 15)
     {
 
         frequency = value.at(0).toDouble();
@@ -153,6 +154,10 @@ void MainWindow::dataReceived(QByteArray data)
 
         range = value.at(11).toDouble();
 
+        yaw_speed = value.at(12).toDouble();
+        pitch_speed = value.at(13).toDouble();
+        roll_speed = value.at(14).toDouble();
+
         m_yaw = yaw;
         m_pitch = pitch;
         m_roll = roll;
@@ -166,6 +171,7 @@ void MainWindow::dataReceived(QByteArray data)
         m_dataWidget->setAngles(yaw,pitch,roll);
         m_dataWidget->setInitialAngles(yaw_initial,pitch_initial, roll_initial);
         m_dataWidget->setTurnAngles(yaw_turn, pitch_turn, roll_turn);
+        m_dataWidget->setSpeedAngles(yaw_speed/100.0, pitch_speed/100.0, roll_speed/100.0);
 
         m_dataWidget->setBeta(beta);
         m_dataWidget->setFrequency(frequency);
