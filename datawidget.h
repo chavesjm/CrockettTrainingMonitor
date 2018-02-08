@@ -15,6 +15,9 @@ public:
     explicit DataWidget(QWidget *parent = 0);
     ~DataWidget();
 
+    void setAcceleration(double x, double y, double z);
+    void setGyroscope(double x, double y, double z);
+    void setMagnetometer(double x, double y, double z);
     void setAngles(double yaw, double m_pitch, double roll);
     void setInitialAngles(double yaw, double m_pitch, double roll);
     void setTurnAngles(double yaw, double m_pitch, double roll);
@@ -24,11 +27,11 @@ public:
     void setRange(double range);
 
 private slots:
-    void betaChanged(int value);
+    void sendValue();
+    void sendSound();
 
 signals:
-
-    void betaValueChanged(int value);
+    void sendValue(QString value);
 
 private:
     Ui::DataWidget *ui;

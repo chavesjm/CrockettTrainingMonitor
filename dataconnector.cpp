@@ -1,6 +1,8 @@
 #include "dataconnector.h"
 
 #include <QDebug>
+#include <stdlib.h>
+#include <iostream>
 
 DataConnector::DataConnector(QString serialPort)
 {
@@ -43,7 +45,7 @@ void DataConnector::handleReadyRead()
     {
         QByteArray byteArray = m_serialPort.readAll();
 
-        qDebug() << byteArray;
+        std::cout << QString(byteArray).toStdString() << std::endl;
 
         emit dataReaded(byteArray);
     }
@@ -59,6 +61,9 @@ void DataConnector::handleError(QSerialPort::SerialPortError error)
 
 void DataConnector::writeData(QString data)
 {
+    data.insert(0,"<");
+    data.append(">");
+
     qDebug() << "DataConnector::writeData() = " << data;
 
     m_serialPort.write(data.toStdString().c_str(),data.size()+1);

@@ -1,18 +1,57 @@
 #include "datawidget.h"
 #include "ui_datawidget.h"
 
+#include <qdebug.h>
+
 DataWidget::DataWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DataWidget)
 {
     ui->setupUi(this);
 
-    connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(betaChanged(int)));
+    connect(ui->ButtonSend,SIGNAL(clicked(bool)),this,SLOT(sendValue()));
+    connect(ui->PB_Sound,SIGNAL(clicked(bool)),this,SLOT(sendSound()));
 }
 
 DataWidget::~DataWidget()
 {
     delete ui;
+}
+
+void DataWidget::setAcceleration(double x, double y, double z)
+{
+    QString xString = QString::number(x);
+    QString yString = QString::number(y);
+    QString zString = QString::number(z);
+
+    ui->LCD_AX->display(xString);
+    ui->LCD_AY->display(yString);
+    ui->LCD_AZ->display(zString);
+
+}
+
+void DataWidget::setGyroscope(double x, double y, double z)
+{
+    QString xString = QString::number(x);
+    QString yString = QString::number(y);
+    QString zString = QString::number(z);
+
+    ui->LCD_GX->display(xString);
+    ui->LCD_GY->display(yString);
+    ui->LCD_GZ->display(zString);
+
+}
+
+void DataWidget::setMagnetometer(double x, double y, double z)
+{
+    QString xString = QString::number(x);
+    QString yString = QString::number(y);
+    QString zString = QString::number(z);
+
+    ui->LCD_MX->display(xString);
+    ui->LCD_MY->display(yString);
+    ui->LCD_MZ->display(zString);
+
 }
 
 void DataWidget::setAngles(double yaw, double pitch, double roll)
@@ -107,8 +146,28 @@ void DataWidget::setRange(double range)
     ui->LCD_Range->display(rangeString);
 }
 
-void DataWidget::betaChanged(int value)
+void DataWidget::sendValue()
 {
-    emit betaValueChanged(value);
+    QString value = QString::number(ui->SpinBoxValue->value());
+
+    emit sendValue(value);
 }
+
+void DataWidget::sendSound()
+{
+    QString value = "#";
+
+    if(ui->SpinBoxSound->value() < 0)
+    {
+        value.append("*");
+    }
+    else
+    {
+        value.append(QString::number(ui->SpinBoxSound->value()));
+    }
+
+    emit sendValue(value);
+}
+
+
 

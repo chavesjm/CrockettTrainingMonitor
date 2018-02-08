@@ -28,7 +28,7 @@ public:
 private slots:
     void onTimer_UpdateDisplay();
     void dataReceived(QByteArray data);
-    void betaValueChanged(int value);
+    void sendData(QString data);
 
 private:
     void openConnection();

@@ -6,7 +6,7 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "/dev/ttyUSB0"
+#define SERIAL_PORT "COM8"
 #define PORT_VELOCIDAD QSerialPort::Baud38400
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //DataWidget
     m_dataWidget.reset(new DataWidget());
-    connect(m_dataWidget.data(),SIGNAL(betaValueChanged(int)),this,SLOT(betaValueChanged(int)));
+    connect(m_dataWidget.data(),SIGNAL(sendValue(QString)),this,SLOT(sendData(QString)));
     ui->DataFrame->setLayout(m_dataWidget->layout());
 
     openConnection();
@@ -126,6 +126,10 @@ void MainWindow::dataReceived(QByteArray data)
     double yaw_speed=0.0, pitch_speed=0.0, roll_speed=0.0;
     double beta=0.0,frequency=0.0;
     double range = 0;
+    double ax = 0,ay = 0,az = 0;
+    double gx = 0,gy = 0,gz = 0;
+    double mx = 0,my = 0,mz = 0;
+
 
     QString values(data);
 
@@ -134,7 +138,7 @@ void MainWindow::dataReceived(QByteArray data)
 
     QStringList value = values.split(",");
 
-    if(value.size() == 15)
+    if(value.size() == 28)
     {
 
         frequency = value.at(0).toDouble();
@@ -158,6 +162,19 @@ void MainWindow::dataReceived(QByteArray data)
         pitch_speed = value.at(13).toDouble();
         roll_speed = value.at(14).toDouble();
 
+        ax = value.at(15).toDouble();
+        ay = value.at(16).toDouble();
+        az = value.at(17).toDouble();
+
+        gx = value.at(18).toDouble();
+        gy = value.at(19).toDouble();
+        gz = value.at(20).toDouble();
+
+        mx = value.at(21).toDouble();
+        my = value.at(22).toDouble();
+        mz = value.at(23).toDouble();
+
+
         m_yaw = yaw;
         m_pitch = pitch;
         m_roll = roll;
@@ -176,12 +193,10 @@ void MainWindow::dataReceived(QByteArray data)
         m_dataWidget->setBeta(beta);
         m_dataWidget->setFrequency(frequency);
         m_dataWidget->setRange(range);
+        m_dataWidget->setAcceleration(ax,ay,az);
+        m_dataWidget->setGyroscope(gx,gy,gz);
+        m_dataWidget->setMagnetometer(mx,my,mz);
     }
-}
-
-void MainWindow::betaValueChanged(int value)
-{
-    m_dataConnector->writeData(QString::number(value));
 }
 
 void MainWindow::initGraph()
@@ -220,6 +235,11 @@ void MainWindow::initGraph()
     connect(ui->StatusGraph->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->StatusGraph->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->StatusGraph->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->StatusGraph->yAxis2, SLOT(setRange(QCPRange)));
 
+}
+
+void MainWindow::sendData(QString data)
+{
+    m_dataConnector->writeData(data);
 }
 
 
