@@ -8,6 +8,7 @@
 
 #define SERIAL_PORT "COM8"
 #define PORT_VELOCIDAD QSerialPort::Baud38400
+#define UDP_PORT 37001
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -60,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     openConnection();
 
+    //openUDPConnection();
+
 
 }
 
@@ -76,6 +79,18 @@ void MainWindow::openConnection()
 
     if(!m_dataConnector->connection())
         QMessageBox::critical(this,"Devide Error", "Error connecting " + QString(SERIAL_PORT), QMessageBox::Ok);
+}
+
+void MainWindow::openUDPConnection()
+{
+    m_udpSocket.reset(new QUdpSocket(this));
+
+    connect(m_udpSocket.data(),SIGNAL(readyRead()),this,SLOT(dataUDPReceived()));
+
+    connect(m_dataConnector.data(),SIGNAL(dataReaded(QByteArray)),this,SLOT(dataReceived(QByteArray)));
+
+    if(!m_udpSocket->bind(QHostAddress::AnyIPv4, UDP_PORT))
+        QMessageBox::critical(this,"Bind Error", "Error connecting " + QString(UDP_PORT), QMessageBox::Ok);
 }
 
 void MainWindow::closeConnection()
@@ -197,6 +212,70 @@ void MainWindow::dataReceived(QByteArray data)
         m_dataWidget->setGyroscope(gx,gy,gz);
         m_dataWidget->setMagnetometer(mx,my,mz);
     }
+}
+
+void MainWindow::dataUDPReceived()
+{
+        QHostAddress sender;
+        u_int16_t port;
+        while (m_udpSocket->hasPendingDatagrams())
+        {
+             QByteArray datagram;
+             datagram.resize(m_udpSocket->pendingDatagramSize());
+             m_udpSocket->readDatagram(datagram.data(),datagram.size(),&sender,&port);
+
+            QString text(datagram);
+
+            QStringList values = text.split(";");
+
+            double yaw=0.0,pitch=0.0,roll=0.0;
+            double yaw_initial=0.0,pitch_initial=0.0,roll_initial=0.0;
+            double yaw_turn=0.0,pitch_turn=0.0,roll_turn=0.0;
+            double yaw_speed=0.0, pitch_speed=0.0, roll_speed=0.0;
+            double beta=0.0,frequency=0.0;
+            double range = 0;
+            double ax = 0,ay = 0,az = 0;
+            double gx = 0,gy = 0,gz = 0;
+            double mx = 0,my = 0,mz = 0;
+
+            yaw = values.at(0).toFloat();
+            pitch = values.at(1).toFloat();
+            roll = values.at(2).toFloat();
+
+            yaw_initial = values.at(3).toFloat();
+            pitch_initial = values.at(4).toFloat();
+            roll_initial = values.at(5).toFloat();
+
+            yaw_turn = values.at(6).toFloat();
+            pitch_turn = values.at(7).toFloat();
+            roll_turn = values.at(8).toFloat();
+
+            range = values.at(9).toFloat();
+
+            m_yaw = yaw;
+            m_pitch = pitch;
+            m_roll = roll;
+
+            m_yawTurn = yaw_turn;
+
+            m_range = range;
+
+            Object_GL->setAngles(-pitch,-roll,yaw);
+
+            m_dataWidget->setAngles(yaw,pitch,roll);
+            m_dataWidget->setInitialAngles(yaw_initial,pitch_initial, roll_initial);
+            m_dataWidget->setTurnAngles(yaw_turn, pitch_turn, roll_turn);
+            m_dataWidget->setSpeedAngles(yaw_speed/100.0, pitch_speed/100.0, roll_speed/100.0);
+
+            m_dataWidget->setBeta(beta);
+            m_dataWidget->setFrequency(frequency);
+            m_dataWidget->setRange(range);
+            m_dataWidget->setAcceleration(ax,ay,az);
+            m_dataWidget->setGyroscope(gx,gy,gz);
+            m_dataWidget->setMagnetometer(mx,my,mz);
+
+
+        }
 }
 
 void MainWindow::initGraph()
