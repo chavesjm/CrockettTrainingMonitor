@@ -11,6 +11,8 @@
 
 #include <dataconnector.h>
 
+#include <QUdpSocket>
+
 #include <qcustomplot/qcustomplot.h>
 
 namespace Ui {
@@ -28,11 +30,14 @@ public:
 private slots:
     void onTimer_UpdateDisplay();
     void dataReceived(QByteArray data);
+    void dataUDPReceived();
     void sendData(QString data);
 
 private:
     void openConnection();
+    void openUDPConnection();
     void closeConnection();
+    void closeUDPConnection();
     void initGraph();
 
     Ui::MainWindow *ui;
@@ -59,6 +64,8 @@ private:
     QScopedPointer<DataWidget> m_dataWidget;
 
     QScopedPointer<DataConnector> m_dataConnector;
+
+    QScopedPointer<QUdpSocket> m_udpSocket;
 };
 
 #endif // MAINWINDOW_H
