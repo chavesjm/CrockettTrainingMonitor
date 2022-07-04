@@ -15,16 +15,18 @@ DataConnector::DataConnector(QString serialPort)
 
 bool DataConnector::connection()
 {
-    m_serialPort.clear();
-    m_serialPort.flush();
-
-    m_serialPort.open(QSerialPort::ReadWrite);
-
-    m_serialPort.setBaudRate(QSerialPort::Baud38400);
+    m_serialPort.setBaudRate(QSerialPort::Baud115200);
     m_serialPort.setDataBits(QSerialPort::Data8);
     m_serialPort.setParity(QSerialPort::NoParity);
     m_serialPort.setStopBits(QSerialPort::OneStop);
     m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
+
+    m_serialPort.open(QSerialPort::ReadOnly);
+
+    std::cout << m_serialPort.error() << std::endl;
+
+    m_serialPort.clear();
+    m_serialPort.flush();
 
     return isConnected();
 }

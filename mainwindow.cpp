@@ -6,8 +6,8 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "COM8"
-#define PORT_VELOCIDAD QSerialPort::Baud38400
+#define SERIAL_PORT "/dev/rfcomm0"
+#define PORT_VELOCIDAD QSerialPort::Baud115200
 #define UDP_PORT 37001
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -151,9 +151,9 @@ void MainWindow::dataReceived(QByteArray data)
     values = values.remove("\r");
     values = values.remove("\n");
 
-    QStringList value = values.split(",");
+    QStringList value = values.split(";");
 
-    if(value.size() == 28)
+    if(value.size() == 12)
     {
 
         frequency = value.at(0).toDouble();
@@ -173,21 +173,21 @@ void MainWindow::dataReceived(QByteArray data)
 
         range = value.at(11).toDouble();
 
-        yaw_speed = value.at(12).toDouble();
-        pitch_speed = value.at(13).toDouble();
-        roll_speed = value.at(14).toDouble();
+        //yaw_speed = value.at(12).toDouble();
+        //pitch_speed = value.at(13).toDouble();
+        //roll_speed = value.at(14).toDouble();
 
-        ax = value.at(15).toDouble();
-        ay = value.at(16).toDouble();
-        az = value.at(17).toDouble();
+        //ax = value.at(15).toDouble();
+        //ay = value.at(16).toDouble();
+        //az = value.at(17).toDouble();
 
-        gx = value.at(18).toDouble();
-        gy = value.at(19).toDouble();
-        gz = value.at(20).toDouble();
+        //gx = value.at(18).toDouble();
+        //gy = value.at(19).toDouble();
+        //gz = value.at(20).toDouble();
 
-        mx = value.at(21).toDouble();
-        my = value.at(22).toDouble();
-        mz = value.at(23).toDouble();
+        //mx = value.at(21).toDouble();
+        //my = value.at(22).toDouble();
+        //mz = value.at(23).toDouble();
 
 
         m_yaw = yaw;
@@ -291,7 +291,7 @@ void MainWindow::initGraph()
     timeTicker->setTimeFormat("%h:%m:%s");
     ui->graph->xAxis->setTicker(timeTicker);
     ui->graph->axisRect()->setupFullAxesBox();
-    ui->graph->yAxis->setRange(-180,180);
+    ui->graph->yAxis->setRange(0,360);
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(ui->graph->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph->xAxis2, SLOT(setRange(QCPRange)));

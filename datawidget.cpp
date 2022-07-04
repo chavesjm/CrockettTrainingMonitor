@@ -9,6 +9,35 @@ DataWidget::DataWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->LCD_AX->setVisible(false);
+    ui->LCD_AY->setVisible(false);
+    ui->LCD_AZ->setVisible(false);
+    ui->LCD_GX->setVisible(false);
+    ui->LCD_GY->setVisible(false);
+    ui->LCD_GZ->setVisible(false);
+    ui->LCD_MX->setVisible(false);
+    ui->LCD_MY->setVisible(false);
+    ui->LCD_MZ->setVisible(false);
+    ui->ButtonSend->setVisible(false);
+    ui->SpinBoxSound->setVisible(false);
+    ui->SpinBoxValue->setVisible(false);
+    ui->PB_Sound->setVisible(false);
+    ui->LB_AX->setVisible(false);
+    ui->LB_AY->setVisible(false);
+    ui->LB_AZ->setVisible(false);
+    ui->LB_MX->setVisible(false);
+    ui->LB_MY->setVisible(false);
+    ui->LB_MZ->setVisible(false);
+    ui->LB_GX->setVisible(false);
+    ui->LB_GY->setVisible(false);
+    ui->LB_GZ->setVisible(false);
+    ui->LCD_Roll_Speed->setVisible(false);
+    ui->LCD_Yaw_Speed->setVisible(false);
+    ui->LCD_Pitch_Speed->setVisible(false);
+    ui->LB_RS->setVisible(false);
+    ui->LB_YS->setVisible(false);
+    ui->LB_PS->setVisible(false);
+
     connect(ui->ButtonSend,SIGNAL(clicked(bool)),this,SLOT(sendValue()));
     connect(ui->PB_Sound,SIGNAL(clicked(bool)),this,SLOT(sendSound()));
 }
@@ -60,9 +89,9 @@ void DataWidget::setAngles(double yaw, double pitch, double roll)
     m_pitch = pitch;
     m_roll = roll;
 
-    QString yawString = QString::number((int)m_yaw);
-    QString pitchString = QString::number((int)m_pitch);
-    QString rollString = QString::number((int)m_roll);
+    QString yawString = QString::number(m_yaw,'f',1);
+    QString pitchString = QString::number(m_pitch,'f',1);
+    QString rollString = QString::number(m_roll,'f',1);
 
     ui->LCD_Yaw->display(yawString);
     ui->LCD_Pitch->display(pitchString);
@@ -76,9 +105,9 @@ void DataWidget::setInitialAngles(double yaw, double pitch, double roll)
     m_pitch_initial = pitch;
     m_roll_initial = roll;
 
-    QString yawString = QString::number((int)m_yaw_initial);
-    QString pitchString = QString::number((int)m_pitch_initial);
-    QString rollString = QString::number((int)m_roll_initial);
+    QString yawString = QString::number(m_yaw_initial,'f',1);
+    QString pitchString = QString::number(m_pitch_initial,'f',1);
+    QString rollString = QString::number(m_roll_initial,'f',1);
 
     ui->LCD_Yaw_Initial->display(yawString);
     ui->LCD_Pitch_Initial->display(pitchString);
@@ -92,9 +121,9 @@ void DataWidget::setTurnAngles(double yaw, double pitch, double roll)
     m_pitch_turn = pitch;
     m_roll_turn = roll;
 
-    QString yawString = QString::number(m_yaw_turn);
-    QString pitchString = QString::number(m_pitch_turn);
-    QString rollString = QString::number(m_roll_turn);
+    QString yawString = QString::number(m_yaw_turn,'f',1);
+    QString pitchString = QString::number(m_pitch_turn,'f',1);
+    QString rollString = QString::number(m_roll_turn,'f',1);
 
     ui->LCD_Yaw_Turn->display(yawString);
     ui->LCD_Pitch_Turn->display(pitchString);
