@@ -139,7 +139,7 @@ void MainWindow::dataReceived(QByteArray data)
     double yaw_initial=0.0,pitch_initial=0.0,roll_initial=0.0;
     double yaw_turn=0.0,pitch_turn=0.0,roll_turn=0.0;
     double yaw_speed=0.0, pitch_speed=0.0, roll_speed=0.0;
-    double beta=0.0,frequency=0.0;
+    double beta=0.0,frequency=0.0, timeStamp = 0.0;
     double range = 0;
     double ax = 0,ay = 0,az = 0;
     double gx = 0,gy = 0,gz = 0;
@@ -153,25 +153,25 @@ void MainWindow::dataReceived(QByteArray data)
 
     QStringList value = values.split(";");
 
-    if(value.size() == 12)
+    if(value.size() == 13)
     {
+        timeStamp = value.at(0).toDouble();
+        frequency = value.at(1).toDouble();
+        beta = value.at(2).toDouble();
 
-        frequency = value.at(0).toDouble();
-        beta = value.at(1).toDouble();
+        yaw = value.at(3).toDouble();
+        pitch = value.at(4).toDouble();
+        roll = value.at(5).toDouble();
 
-        yaw = value.at(2).toDouble();
-        pitch = value.at(3).toDouble();
-        roll = value.at(4).toDouble();
+        yaw_initial = value.at(6).toDouble();
+        pitch_initial = value.at(7).toDouble();
+        roll_initial = value.at(8).toDouble();
 
-        yaw_initial = value.at(5).toDouble();
-        pitch_initial = value.at(6).toDouble();
-        roll_initial = value.at(7).toDouble();
+        yaw_turn = value.at(9).toDouble();
+        pitch_turn = value.at(10).toDouble();
+        roll_turn = value.at(11).toDouble();
 
-        yaw_turn = value.at(8).toDouble();
-        pitch_turn = value.at(9).toDouble();
-        roll_turn = value.at(10).toDouble();
-
-        range = value.at(11).toDouble();
+        range = value.at(12).toDouble();
 
         //yaw_speed = value.at(12).toDouble();
         //pitch_speed = value.at(13).toDouble();
@@ -211,6 +211,8 @@ void MainWindow::dataReceived(QByteArray data)
         m_dataWidget->setAcceleration(ax,ay,az);
         m_dataWidget->setGyroscope(gx,gy,gz);
         m_dataWidget->setMagnetometer(mx,my,mz);
+    }else{
+        assert(false);
     }
 }
 

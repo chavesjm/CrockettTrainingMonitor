@@ -27,6 +27,7 @@ private slots:
 
 private:
     QSerialPort m_serialPort;
+    QByteArray m_byteArray;
 };
 
 #endif // DATACONNECTOR_H

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <stdlib.h>
 #include <iostream>
+#include <QDateTime>
 
 DataConnector::DataConnector(QString serialPort)
 {
@@ -19,7 +20,7 @@ bool DataConnector::connection()
     m_serialPort.setDataBits(QSerialPort::Data8);
     m_serialPort.setParity(QSerialPort::NoParity);
     m_serialPort.setStopBits(QSerialPort::OneStop);
-    m_serialPort.setFlowControl(QSerialPort::NoFlowControl);
+    m_serialPort.setFlowControl(QSerialPort::HardwareControl);
 
     m_serialPort.open(QSerialPort::ReadOnly);
 
@@ -43,14 +44,18 @@ bool DataConnector::isConnected()
 
 void DataConnector::handleReadyRead()
 {
-    if(m_serialPort.canReadLine())
-    {
-        QByteArray byteArray = m_serialPort.readAll();
+    QByteArray byteArray = m_serialPort.readAll();
 
-        std::cout << QString(byteArray).toStdString() << std::endl;
-
-        emit dataReaded(byteArray);
+    while(byteArray.contains("\n")){
+        int pos = byteArray.indexOf("\n");
+        m_byteArray.append(byteArray.left(pos + 1));
+        std::cout << (QString::number(QDateTime::currentMSecsSinceEpoch()) + QString(";") + QString(m_byteArray)).toStdString() << std::endl;
+        emit dataReaded(m_byteArray);
+        m_byteArray.clear();
+        byteArray.remove(0,pos+1);
     }
+
+    m_byteArray.append(byteArray);
 }
 
 void DataConnector::handleError(QSerialPort::SerialPortError error)
