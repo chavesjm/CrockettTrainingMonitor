@@ -6,11 +6,11 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "COM8"
-#define PORT_VELOCIDAD QSerialPort::Baud38400
+#define SERIAL_PORT "/dev/rfcomm0"
+#define PORT_VELOCIDAD QSerialPort::Baud115200
 #define UDP_PORT 37001
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QString serialPort, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -24,6 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_range = 0;
 
     this->setWindowTitle("Crockett Training");
+
+    if(serialPort.isEmpty()){
+        m_serialPort = QString(SERIAL_PORT);
+    }else{
+        m_serialPort = serialPort;
+    }
 
     // Create the openGL display for the map
     Object_GL = new ObjectOpenGL(ui->OpenGLFrame);
@@ -73,12 +79,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::openConnection()
 {
-    m_dataConnector.reset(new DataConnector(SERIAL_PORT));
+    m_dataConnector.reset(new DataConnector(m_serialPort));
 
     connect(m_dataConnector.data(),SIGNAL(dataReaded(QByteArray)),this,SLOT(dataReceived(QByteArray)));
 
     if(!m_dataConnector->connection())
-        QMessageBox::critical(this,"Devide Error", "Error connecting " + QString(SERIAL_PORT), QMessageBox::Ok);
+        QMessageBox::critical(this,"Devide Error", "Error connecting " + QString(m_serialPort), QMessageBox::Ok);
 }
 
 void MainWindow::openUDPConnection()
@@ -139,7 +145,7 @@ void MainWindow::dataReceived(QByteArray data)
     double yaw_initial=0.0,pitch_initial=0.0,roll_initial=0.0;
     double yaw_turn=0.0,pitch_turn=0.0,roll_turn=0.0;
     double yaw_speed=0.0, pitch_speed=0.0, roll_speed=0.0;
-    double beta=0.0,frequency=0.0;
+    double beta=0.0,frequency=0.0, timeStamp = 0.0;
     double range = 0;
     double ax = 0,ay = 0,az = 0;
     double gx = 0,gy = 0,gz = 0;
@@ -151,43 +157,43 @@ void MainWindow::dataReceived(QByteArray data)
     values = values.remove("\r");
     values = values.remove("\n");
 
-    QStringList value = values.split(",");
+    QStringList value = values.split(";");
 
-    if(value.size() == 28)
+    if(value.size() == 13)
     {
+        timeStamp = value.at(0).toDouble();
+        frequency = value.at(1).toDouble();
+        beta = value.at(2).toDouble();
 
-        frequency = value.at(0).toDouble();
-        beta = value.at(1).toDouble();
+        yaw = value.at(3).toDouble();
+        pitch = value.at(4).toDouble();
+        roll = value.at(5).toDouble();
 
-        yaw = value.at(2).toDouble();
-        pitch = value.at(3).toDouble();
-        roll = value.at(4).toDouble();
+        yaw_initial = value.at(6).toDouble();
+        pitch_initial = value.at(7).toDouble();
+        roll_initial = value.at(8).toDouble();
 
-        yaw_initial = value.at(5).toDouble();
-        pitch_initial = value.at(6).toDouble();
-        roll_initial = value.at(7).toDouble();
+        yaw_turn = value.at(9).toDouble();
+        pitch_turn = value.at(10).toDouble();
+        roll_turn = value.at(11).toDouble();
 
-        yaw_turn = value.at(8).toDouble();
-        pitch_turn = value.at(9).toDouble();
-        roll_turn = value.at(10).toDouble();
+        range = value.at(12).toDouble();
 
-        range = value.at(11).toDouble();
+        //yaw_speed = value.at(12).toDouble();
+        //pitch_speed = value.at(13).toDouble();
+        //roll_speed = value.at(14).toDouble();
 
-        yaw_speed = value.at(12).toDouble();
-        pitch_speed = value.at(13).toDouble();
-        roll_speed = value.at(14).toDouble();
+        //ax = value.at(15).toDouble();
+        //ay = value.at(16).toDouble();
+        //az = value.at(17).toDouble();
 
-        ax = value.at(15).toDouble();
-        ay = value.at(16).toDouble();
-        az = value.at(17).toDouble();
+        //gx = value.at(18).toDouble();
+        //gy = value.at(19).toDouble();
+        //gz = value.at(20).toDouble();
 
-        gx = value.at(18).toDouble();
-        gy = value.at(19).toDouble();
-        gz = value.at(20).toDouble();
-
-        mx = value.at(21).toDouble();
-        my = value.at(22).toDouble();
-        mz = value.at(23).toDouble();
+        //mx = value.at(21).toDouble();
+        //my = value.at(22).toDouble();
+        //mz = value.at(23).toDouble();
 
 
         m_yaw = yaw;
@@ -211,6 +217,8 @@ void MainWindow::dataReceived(QByteArray data)
         m_dataWidget->setAcceleration(ax,ay,az);
         m_dataWidget->setGyroscope(gx,gy,gz);
         m_dataWidget->setMagnetometer(mx,my,mz);
+    }else{
+        assert(false);
     }
 }
 
@@ -291,7 +299,7 @@ void MainWindow::initGraph()
     timeTicker->setTimeFormat("%h:%m:%s");
     ui->graph->xAxis->setTicker(timeTicker);
     ui->graph->axisRect()->setupFullAxesBox();
-    ui->graph->yAxis->setRange(-180,180);
+    ui->graph->yAxis->setRange(0,360);
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(ui->graph->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->graph->xAxis2, SLOT(setRange(QCPRange)));

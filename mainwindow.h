@@ -24,7 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QString serialPort = QString(), QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
@@ -66,6 +66,8 @@ private:
     QScopedPointer<DataConnector> m_dataConnector;
 
     QScopedPointer<QUdpSocket> m_udpSocket;
+
+    QString m_serialPort;
 };
 
 #endif // MAINWINDOW_H

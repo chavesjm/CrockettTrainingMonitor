@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
-    <height>634</height>
+    <width>458</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,7 +105,7 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_17">
              <item>
-              <widget class="QLabel" name="label_14">
+              <widget class="QLabel" name="LB_YS">
                <property name="text">
                 <string>Yaw Speed</string>
                </property>
@@ -124,7 +124,7 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_20">
                <item>
-                <widget class="QLabel" name="label_17">
+                <widget class="QLabel" name="LB_AX">
                  <property name="text">
                   <string>AX</string>
                  </property>
@@ -143,7 +143,7 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_23">
                  <item>
-                  <widget class="QLabel" name="label_20">
+                  <widget class="QLabel" name="LB_GX">
                    <property name="text">
                     <string>GX</string>
                    </property>
@@ -162,7 +162,7 @@
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_26">
                    <item>
-                    <widget class="QLabel" name="label_23">
+                    <widget class="QLabel" name="LB_MX">
                      <property name="text">
                       <string>MX</string>
                      </property>
@@ -277,7 +277,7 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_18">
              <item>
-              <widget class="QLabel" name="label_15">
+              <widget class="QLabel" name="LB_PS">
                <property name="text">
                 <string>Pitch Speed</string>
                </property>
@@ -296,7 +296,7 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_21">
                <item>
-                <widget class="QLabel" name="label_18">
+                <widget class="QLabel" name="LB_AY">
                  <property name="text">
                   <string>AY</string>
                  </property>
@@ -315,7 +315,7 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_24">
                  <item>
-                  <widget class="QLabel" name="label_21">
+                  <widget class="QLabel" name="LB_GY">
                    <property name="text">
                     <string>GY</string>
                    </property>
@@ -334,7 +334,7 @@
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_27">
                    <item>
-                    <widget class="QLabel" name="label_24">
+                    <widget class="QLabel" name="LB_MY">
                      <property name="text">
                       <string>MY</string>
                      </property>
@@ -449,7 +449,7 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_19">
              <item>
-              <widget class="QLabel" name="label_16">
+              <widget class="QLabel" name="LB_RS">
                <property name="text">
                 <string>Roll Speed</string>
                </property>
@@ -468,7 +468,7 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_22">
                <item>
-                <widget class="QLabel" name="label_19">
+                <widget class="QLabel" name="LB_AZ">
                  <property name="text">
                   <string>AZ</string>
                  </property>
@@ -487,7 +487,7 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_25">
                  <item>
-                  <widget class="QLabel" name="label_22">
+                  <widget class="QLabel" name="LB_GZ">
                    <property name="text">
                     <string>GZ</string>
                    </property>
@@ -506,7 +506,7 @@
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_28">
                    <item>
-                    <widget class="QLabel" name="label_25">
+                    <widget class="QLabel" name="LB_MZ">
                      <property name="text">
                       <string>MZ</string>
                      </property>
