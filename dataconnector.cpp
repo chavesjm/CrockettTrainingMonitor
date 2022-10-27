@@ -35,6 +35,8 @@ bool DataConnector::connection()
 bool DataConnector::closeConnection()
 {
     m_serialPort.close();
+
+    return true;
 }
 
 bool DataConnector::isConnected()

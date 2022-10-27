@@ -10,7 +10,7 @@
 #define PORT_VELOCIDAD QSerialPort::Baud115200
 #define UDP_PORT 37001
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QString serialPort, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -24,6 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_range = 0;
 
     this->setWindowTitle("Crockett Training");
+
+    if(serialPort.isEmpty()){
+        m_serialPort = QString(SERIAL_PORT);
+    }else{
+        m_serialPort = serialPort;
+    }
 
     // Create the openGL display for the map
     Object_GL = new ObjectOpenGL(ui->OpenGLFrame);
@@ -73,12 +79,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::openConnection()
 {
-    m_dataConnector.reset(new DataConnector(SERIAL_PORT));
+    m_dataConnector.reset(new DataConnector(m_serialPort));
 
     connect(m_dataConnector.data(),SIGNAL(dataReaded(QByteArray)),this,SLOT(dataReceived(QByteArray)));
 
     if(!m_dataConnector->connection())
-        QMessageBox::critical(this,"Devide Error", "Error connecting " + QString(SERIAL_PORT), QMessageBox::Ok);
+        QMessageBox::critical(this,"Devide Error", "Error connecting " + QString(m_serialPort), QMessageBox::Ok);
 }
 
 void MainWindow::openUDPConnection()
