@@ -22,7 +22,7 @@ bool DataConnector::connection()
     m_serialPort.setStopBits(QSerialPort::OneStop);
     m_serialPort.setFlowControl(QSerialPort::HardwareControl);
 
-    m_serialPort.open(QSerialPort::ReadOnly);
+    m_serialPort.open(QSerialPort::ReadWrite);
 
     std::cout << m_serialPort.error() << std::endl;
 
@@ -66,6 +66,11 @@ void DataConnector::handleError(QSerialPort::SerialPortError error)
     {
        qDebug() << QObject::tr("Error :") << m_serialPort.errorString();
     }
+}
+
+void DataConnector::writeChar(char value){
+
+    m_serialPort.write(&value,sizeof(char));
 }
 
 void DataConnector::writeData(QString data)

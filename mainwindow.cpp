@@ -6,7 +6,7 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "/dev/rfcomm0"
+#define SERIAL_PORT "/dev/ttyUSB0"
 #define PORT_VELOCIDAD QSerialPort::Baud115200
 #define UDP_PORT 37001
 
@@ -65,6 +65,8 @@ MainWindow::MainWindow(QString serialPort, QWidget *parent) :
     connect(m_dataWidget.data(),SIGNAL(sendValue(QString)),this,SLOT(sendData(QString)));
     ui->DataFrame->setLayout(m_dataWidget->layout());
 
+    connect(m_dataWidget.data(),SIGNAL(resetPlay(bool)),this,SLOT(resetPlay(bool)));
+
     openConnection();
 
     //openUDPConnection();
@@ -75,6 +77,12 @@ MainWindow::MainWindow(QString serialPort, QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::resetPlay(bool value){
+
+    m_dataConnector->writeChar('R');
+
 }
 
 void MainWindow::openConnection()

@@ -32,6 +32,7 @@ private slots:
     void dataReceived(QByteArray data);
     void dataUDPReceived();
     void sendData(QString data);
+    void resetPlay(bool value);
 
 private:
     void openConnection();

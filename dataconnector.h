@@ -17,6 +17,7 @@ public:
     bool closeConnection();
 
     void writeData(QString data);
+    void writeChar(char value);
 
 signals:
     void dataReaded(QByteArray data);

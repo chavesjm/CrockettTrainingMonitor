@@ -32,6 +32,7 @@ private slots:
 
 signals:
     void sendValue(QString value);
+    void resetPlay(bool value);
 
 private:
     Ui::DataWidget *ui;

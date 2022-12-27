@@ -40,6 +40,7 @@ DataWidget::DataWidget(QWidget *parent) :
 
     connect(ui->ButtonSend,SIGNAL(clicked(bool)),this,SLOT(sendValue()));
     connect(ui->PB_Sound,SIGNAL(clicked(bool)),this,SLOT(sendSound()));
+    connect(ui->PB_Reset,SIGNAL(clicked(bool)),this,SIGNAL(resetPlay(bool)));
 }
 
 DataWidget::~DataWidget()
