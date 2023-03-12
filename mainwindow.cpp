@@ -6,7 +6,7 @@
 
 #include <qcustomplot/qcustomplot.h>
 
-#define SERIAL_PORT "/dev/ttyUSB0"
+#define SERIAL_PORT "/dev/rfcomm0"
 #define PORT_VELOCIDAD QSerialPort::Baud115200
 #define UDP_PORT 37001
 
